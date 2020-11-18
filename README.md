@@ -14,6 +14,10 @@ These are my notes for creating my rPi based torrent box. This should include:
       sudo apt-get update
       sudo apt-get upgrade
    ```
+   
+5. Install Deluge
+   - Add add-apt Repository
+      ``bash sudo apt install software-properties-common ``
 3. Install Radarr
    - Download Radarr
       ```bash
