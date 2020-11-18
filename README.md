@@ -32,6 +32,15 @@ These are my notes for creating my rPi based torrent box. This should include:
          sudo apt upgrade
          sudo apt install nzbdrone 
       ```
+   - Create Sonarr Account
+     ```bash
+        sudo adduser --system --no-create-home nzbdrone
+        sudo mkdir /home/nzbdrone
+        sudo chmod 770 /opt/NzbDrone -R
+        sudo chmod 770 /home/nzbdrone/ -R
+        sudo chown nzbdrone:nogroup /opt/NzbDrone -R
+        sudo chown nzbdrone:nogroup /home/nzbdrone -R
+     ```     
    - [Configure AutoStart] (https://github.com/Sonarr/Sonarr/wiki/Autostart-on-Linux)
       - Create Service File        
         ```bash
