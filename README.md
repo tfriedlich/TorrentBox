@@ -27,12 +27,13 @@ These are my notes for creating my rPi based torrent box. This should include:
       - sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 0xA236C58F409091A18ACA53CBEBFF6B99D9B78493
       - echo "deb http://apt.sonarr.tv/ master main" | sudo tee /etc/apt/sources.list.d/sonarr.list
    - Install Sonarr
-      - sudo apt update
-      - sudo apt upgrade
-      - sudo apt install nzbdrone 
+      ```bash
+         sudo apt update
+         sudo apt upgrade
+         sudo apt install nzbdrone 
+      ```
    - [Configure AutoStart] (https://github.com/Sonarr/Sonarr/wiki/Autostart-on-Linux)
-      - Create Service File
-        - sudo nano /etc/systemd/system/sonarr.service
+      - Create Service File        
         ```bash
            sudo nano /etc/systemd/system/sonarr.service
         ```
