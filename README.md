@@ -47,32 +47,24 @@ These are my notes for creating my rPi based torrent box. This should include:
            sudo nano /etc/systemd/system/sonarr.service
         ```
 
-**Add and edit this example `sonarr.service` unit**
+      **Add this to `sonarr.service` file**
 
-_Be *sure* to modify the user, group, path to the `mono` binary and install directory._
+      ```
+        [Unit]
+        Description=Sonarr Daemon
+        After=network.target
 
-```
-[Unit]
-Description=Sonarr Daemon
-After=network.target
+        [Service]
+        User=nzbdrone
+        Group=nogroup
 
-[Service]
-# Change and/or create the required user and group.
-User=sonarr
-Group=sonarr
+        Type=simple
+        ExecStart=/usr/bin/mono /opt/NzbDrone/NzbDrone.exe -nobrowser
+        TimeoutStopSec=20
+        KillMode=process
+        Restart=on-failure
 
-# The UMask parameter controls the permissions of folders and files created.
-#UMask=002
-
-# The -data=/path argument can be used to force the config/db folder
-ExecStart=/usr/bin/mono --debug /opt/NzbDrone/NzbDrone.exe -nobrowser
-
-Type=simple
-TimeoutStopSec=20
-KillMode=process
-Restart=on-failure
-
-[Install]
-WantedBy=multi-user.target
-```
+        [Install]
+        WantedBy=multi-user.target
+      ```
   
