@@ -27,7 +27,47 @@ These are my notes for creating my rPi based torrent box. This should include:
      ```bash
         sudo mv Radarr /opt
      ```
+   - Create Radarr Account
+     ```bash
+        sudo adduser --system --no-create-home radarr
+        sudo mkdir /home/radarr
+        sudo chmod 770 /opt/Radarr -R
+        sudo chmod 770 /home/radarr/ -R
+        sudo chown nzbdrone:nogroup /opt/Radarr -R
+        sudo chown nzbdrone:nogroup /home/radarr -R        
+      ```
+    - Configure AutoStart (https://github.com/Radarr/Radarr/wiki/Autostart-on-Linux)
+      - Create Service File        
+        ```bash
+           sudo nano /etc/systemd/system/radarr.service
+        ```
 
+      - Add this to `radarr.service` file
+
+      ```
+      [Unit]
+      Description=Radarr Daemon
+      After=syslog.target network.target
+      
+      [Service]      
+      User=radarr
+      Group=nogroup
+
+      Type=simple
+
+      ExecStart=/usr/bin/mono --debug /opt/Radarr/Radarr.exe -nobrowser
+      TimeoutStopSec=20
+      KillMode=process
+      Restart=on-failure
+
+      #ReadWritePaths=/opt/Radarr /path/to/movies/folder
+      #ProtectSystem=strict
+      #PrivateDevices=true
+      #ProtectHome=true
+
+      [Install]
+      WantedBy=multi-user.target      
+      
 3. Install Sonarr
    - Update Mono
      ```bash
@@ -53,7 +93,7 @@ These are my notes for creating my rPi based torrent box. This should include:
         sudo chown nzbdrone:nogroup /opt/NzbDrone -R
         sudo chown nzbdrone:nogroup /home/nzbdrone -R
      ```     
-   - [Configure AutoStart] (https://github.com/Sonarr/Sonarr/wiki/Autostart-on-Linux)
+   - Configure AutoStart (https://github.com/Sonarr/Sonarr/wiki/Autostart-on-Linux)
       - Create Service File        
         ```bash
            sudo nano /etc/systemd/system/sonarr.service
