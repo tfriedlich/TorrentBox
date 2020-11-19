@@ -30,7 +30,7 @@ These are my notes for creating my rPi based torrent box. This should include:
          sudo apt install deluged deluge-console
       ```
     
-    - Configure AutoStart 
+    - Configure AutoStart (https://deluge.readthedocs.io/en/latest/how-to/systemd-service.html)
       - Create Service File        
         ```bash
           nano /etc/systemd/system/deluged.service
