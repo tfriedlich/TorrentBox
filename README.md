@@ -15,9 +15,87 @@ These are my notes for creating my rPi based torrent box. This should include:
       sudo apt-get upgrade
    ```
    
-5. Install Deluge
+5. Install Deluged (https://www.serverself.com/how-to-setup-deluge-a-torrent-seedbox-server/)
    - Add add-apt Repository
-      ``bash sudo apt install software-properties-common ``
+      ```bash 
+         sudo apt install software-properties-common
+      ```
+   - Create Deluge user and group
+      ```bash 
+         sudo adduser --system --group deluge
+         sudo gpasswd -a root deluge
+      ```
+    - Install Deluged (https://linuxconfig.org/set-up-a-headless-deluge-server-on-linux)
+      ```bash
+         sudo apt install deluged deluge-console
+      ```
+    
+    - Configure AutoStart 
+      - Create Service File        
+        ```bash
+          nano /etc/systemd/system/deluged.service
+        ```
+
+      - Add this to `deluged.service` file
+
+        ```
+        [Unit]
+        Description=Deluge Bittorrent Client Daemon
+        After=network-online.target
+
+        [Service]
+        Type=simple
+        User=deluge
+        Group=deluge
+        UMask=007
+
+        ExecStart=/usr/bin/deluged -d
+
+        Restart=on-failure
+
+        # Configures the time to wait before service is stopped forcefully.
+        TimeoutStopSec=300
+
+        [Install]
+        WantedBy=multi-user.target
+        ```
+      - Enable Service
+       ```bash
+          sudo systemctl start deluged
+          sudo systemctl enable deluged
+       ```
+       
+      - Set up Web Service
+      ```bash 
+         sudo nano /etc/systemd/system/deluge-web.service
+      ```
+      - Add this to `deluge-web.service` file
+
+        ```
+        [Unit]
+        Description=Deluge Bittorrent Client Web Interface
+        After=network-online.target
+
+        [Service]
+        Type=simple
+
+        User=deluge
+        Group=deluge
+        UMask=027
+
+        ExecStart=/usr/bin/deluge-web
+
+        Restart=on-failure
+
+        [Install]
+        WantedBy=multi-user.target
+        ```      
+      - Enable Web Service
+      ```bash 
+         sudo systemctl start deluge-web
+         sudo systemctl enable deluge-web
+      ```
+      
 3. Install Radarr
    - Download Radarr
       ```bash
@@ -71,7 +149,11 @@ These are my notes for creating my rPi based torrent box. This should include:
 
       [Install]
       WantedBy=multi-user.target      
-      
+      ```
+      - Enable Service
+       ```bash
+          sudo systemctl enable radarr
+       ```      
 3. Install Sonarr
    - Update Mono
      ```bash
@@ -123,4 +205,9 @@ These are my notes for creating my rPi based torrent box. This should include:
         [Install]
         WantedBy=multi-user.target
       ```
-  
+     - Enable Service
+       ```bash
+          sudo systemctl enable sonarr
+       ```
+
+    
